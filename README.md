@@ -1,2 +1,2 @@
 # quiz-master
-this is a modern age mcq quiz app with a admin and user page
+Quiz Master - V1 is a dynamic, web-based quiz application built using Flask, SQLite, Jinja2 and Bootstrap. It offers both a user interface for students to take quizzes and an admin panel for educators to manage content and view performance analytics. The application supports multiple subjects and tracks user scores, quiz attempts, and question-level responses for detailed evaluation.
