@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow rounded-4 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="mb-0">Quiz: {{ subject_name }}</h4>
+                    <div id="timer" class="badge bg-primary p-2">Time Left: 10:00</div>
+                </div>
+
+                <div class="progress mb-4" style="height: 10px;">
+                    <div id="progressBar" class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
+                </div>
+
+                <form method="POST" action="{{ url_for('submit_quiz', subject_id=subject_id) }}">
+                    {% for question in questions %}
+                    <div class="card mb-4 border-0 bg-light shadow-sm rounded-3">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ loop.index }}. {{ question.question_text }}</h5>
+                            {% for option in question.options %}
+                            <div class="form-check my-2">
+                                <input class="form-check-input" type="radio" name="q{{ question.id }}" id="q{{ question.id }}o{{ loop.index }}" value="{{ option }}" required>
+                                <label class="form-check-label" for="q{{ question.id }}o{{ loop.index }}">
+                                    {{ option }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-success btn-lg rounded-3">Submit Quiz</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Timer (example: 10 minutes)
+let totalSeconds = 600;
+let timerElement = document.getElementById('timer');
+
+function updateTimer() {
+    let minutes = Math.floor(totalSeconds / 60);
+    let seconds = totalSeconds % 60;
+    timerElement.textContent = `Time Left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+    if (totalSeconds <= 0) {
+        alert("Time's up! Submitting quiz...");
+        document.querySelector('form').submit();
+    } else {
+        totalSeconds--;
+    }
+}
+setInterval(updateTimer, 1000);
+
+// Progress bar
+const progressBar = document.getElementById('progressBar');
+const totalQuestions = { questions,length };
+let currentQuestion = 0;
+
+document.querySelectorAll('.form-check-input').forEach(input => {
+    input.addEventListener('change', () => {
+        const answered = new Set();
+        document.querySelectorAll('.form-check-input:checked').forEach(checked => {
+            const qid = checked.name;
+            answered.add(qid);
+        });
+        let percent = (answered.size / totalQuestions) * 100;
+        progressBar.style.width = percent + '%';
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .glass-card {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 40px;
+  }
+  .animated-text {
+    animation: fadeInUp 1s ease-in-out;
+  }
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="glass-card text-center">
+        <h1 class="display-4 fw-bold text-white animated-text mb-4">Welcome to <span class="text-warning">Quiz Master</span>!</h1>
+        <p class="lead text-light mb-5 animated-text">Challenge yourself, learn new things, and become a quiz champion. 🏆</p>
+        
+        {% if not current_user.is_authenticated %}
+        <div class="d-flex justify-content-center gap-3">
+          <a href="{{ url_for('login') }}" class="btn btn-warning btn-lg rounded-pill px-5">Login</a>
+          <a href="{{ url_for('register') }}" class="btn btn-outline-light btn-lg rounded-pill px-5">Register</a>
+        </div>
+        {% else %}
+        <a href="{{ url_for('user_dashboard') }}" class="btn btn-success btn-lg rounded-pill px-5">Go to Dashboard</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

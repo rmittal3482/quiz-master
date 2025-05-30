@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="d-flex align-items-center justify-content-center min-vh-100" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);">
+    <div class="card p-5 rounded-5 shadow-lg border-0" style="width: 500px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(15px);">
+        
+        <h2 class="text-center mb-3 fw-bold">Create Quiz for</h2>
+        <h4 class="text-center text-primary mb-4">{{ chapter.name }}</h4>
+
+        <form method="POST">
+            <div class="form-floating mb-4">
+                <input type="text" class="form-control glass-input" id="remarks" name="remarks" placeholder="Quiz Title" required>
+                <label for="remarks">Quiz Title / Remarks</label>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input type="date" class="form-control glass-input" id="date_of_quiz" name="date_of_quiz" placeholder="Date of Quiz" required>
+                <label for="date_of_quiz">Date of Quiz</label>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input type="text" class="form-control glass-input" id="time_duration" name="time_duration" placeholder="Time Duration" required>
+                <label for="time_duration">Time Duration (minutes)</label>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-glass btn-lg">Create Quiz</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<!-- Styles -->
+<style>
+.glass-input {
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #000;
+    border-radius: 12px;
+}
+
+.glass-input::placeholder {
+    color: #6c757d;
+}
+
+.glass-input:focus {
+    background: rgba(255, 255, 255, 0.4);
+    color: #000;
+    box-shadow: 0 0 0 4px rgba(255,255,255,0.2);
+}
+
+.btn-glass {
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    font-weight: bold;
+    color: #000;
+    transition: 0.3s;
+    border-radius: 12px;
+}
+
+.btn-glass:hover {
+    background: rgba(255, 255, 255, 0.5);
+    color: #000;
+}
+</style>
+
+{% endblock %}

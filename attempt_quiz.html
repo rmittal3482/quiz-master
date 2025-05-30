@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-center min-vh-100" 
+     style="background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%); padding: 2rem;">
+    
+    <div class="card p-5 rounded-5 shadow-lg border-0" 
+         style="max-width: 700px; width: 100%; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(18px);">
+        
+        <h2 class="text-center mb-4 fw-bold text-dark">{{ quiz.chapter.name }} Quiz</h2>
+
+        <form method="POST">
+            {% for question in questions %}
+            <div class="mb-4 p-4 rounded-4 glass-question">
+                <h5 class="fw-semibold mb-3 text-dark">{{ loop.index }}. {{ question.question_statement }}</h5>
+
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="{{ question.id }}" id="q{{ question.id }}_1" value="{{ question.option1 }}" required>
+                    <label class="form-check-label text-dark" for="q{{ question.id }}_1">{{ question.option1 }}</label>
+                </div>
+
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="{{ question.id }}" id="q{{ question.id }}_2" value="{{ question.option2 }}" required>
+                    <label class="form-check-label text-dark" for="q{{ question.id }}_2">{{ question.option2 }}</label>
+                </div>
+
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="{{ question.id }}" id="q{{ question.id }}_3" value="{{ question.option3 }}" required>
+                    <label class="form-check-label text-dark" for="q{{ question.id }}_3">{{ question.option3 }}</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="{{ question.id }}" id="q{{ question.id }}_4" value="{{ question.option4 }}" required>
+                    <label class="form-check-label text-dark" for="q{{ question.id }}_4">{{ question.option4 }}</label>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-lg btn-glass text-white fw-bold">Submit Quiz</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<!-- Styles -->
+<style>
+.glass-question {
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(12px);
+    border-radius: 18px;
+    transition: all 0.3s ease;
+}
+.glass-question:hover {
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-glass {
+    background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 10px;
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+.btn-glass:hover {
+    background: linear-gradient(135deg, #feb47b 0%, #ff7e5f 100%);
+    color: #000;
+}
+</style>
+
+{% endblock %}

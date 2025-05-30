@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-5">
+
+    <h1 class="text-center mb-5 display-4 fw-bold text-primary-emphasis">Admin Dashboard ⚡</h1>
+
+    <!-- 📚 Subjects Section -->
+    <div class="card glass-card mb-5 p-4 rounded-4 shadow">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="fw-bold mb-0">📖 Subjects</h3>
+            <a href="{{ url_for('create_subject') }}" class="btn btn-outline-primary rounded-3 fw-semibold">➕ Create Subject</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover text-center align-middle">
+                <thead class="table-light rounded-3">
+                    <tr>
+                        <th>Subject Name</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject in subjects %}
+                    <tr>
+                        <td class="fw-semibold">{{ subject.name }}</td>
+                        <td>{{ subject.description }}</td>
+                        <td>
+                            <a href="{{ url_for('create_chapter', subject_id=subject.id) }}" class="btn btn-success btn-sm rounded-3">Create Chapter</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 📚 Chapters Section -->
+    <div class="card glass-card mb-5 p-4 rounded-4 shadow">
+        <h3 class="fw-bold mb-4">📚 Chapters</h3>
+        <div class="table-responsive">
+            <table class="table table-hover text-center align-middle">
+                <thead class="table-light rounded-3">
+                    <tr>
+                        <th>Chapter Name</th>
+                        <th>Subject</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for chapter in chapters %}
+                    <tr>
+                        <td class="fw-semibold">{{ chapter.name }}</td>
+                        <td>{{ chapter.subject.name }}</td>
+                        <td>
+                            <a href="{{ url_for('create_quiz', chapter_id=chapter.id) }}" class="btn btn-warning btn-sm rounded-3">Create Quiz</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 📝 Quizzes Section -->
+    <div class="card glass-card mb-5 p-4 rounded-4 shadow">
+        <h3 class="fw-bold mb-4">📝 Quizzes</h3>
+        <div class="table-responsive">
+            <table class="table table-hover text-center align-middle">
+                <thead class="table-light rounded-3">
+                    <tr>
+                        <th>Quiz Title</th>
+                        <th>Chapter</th>
+                        <th>Date</th>
+                        <th>Duration (mins)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for quiz in quizzes %}
+                    <tr>
+                        <td class="fw-semibold">{{ quiz.remarks }}</td>
+                        <td>{{ quiz.chapter.name }}</td>
+                        <td>{{ quiz.date_of_quiz.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ quiz.time_duration }}</td>
+                        <td>
+                            <a href="{{ url_for('add_question', quiz_id=quiz.id) }}" class="btn btn-info btn-sm rounded-3">Add Question</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 📈 Chart Section -->
+    <div class="card glass-card p-4 shadow mb-5 rounded-4">
+        <h3 class="fw-bold text-center mb-4">📊 Quiz Distribution</h3>
+        <canvas id="quizChart" height="100"></canvas>
+    </div>
+
+    <!-- 👥 User Scores Section -->
+    <div class="card glass-card p-4 shadow rounded-4">
+        <h3 class="fw-bold text-center mb-4">👥 Users and Their Quiz Attempts</h3>
+        <div class="table-responsive">
+            <table class="table table-striped text-center align-middle">
+                <thead class="table-dark rounded-3">
+                    <tr>
+                        <th>User Name</th>
+                        <th>Email</th>
+                        <th>Quiz Title</th>
+                        <th>Score</th>
+                        <th>Attempt Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        {% for score in user.scores %}
+                            <tr>
+                                <td>{{ user.full_name }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ score.quiz.remarks }}</td>
+                                <td>
+                                    {% if score.score >= 3 %}
+                                        <span class="badge bg-success">{{ score.score }}</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">{{ score.score }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ score.attempt_date.strftime('%d-%m-%Y %H:%M') }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Chart Script -->
+<script>
+const ctx = document.getElementById('quizChart').getContext('2d');
+const quizChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: { chart_labels , tojson },
+        datasets: [{
+            label: 'Number of Quizzes',
+            data: { chart_data , tojson },
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+            borderRadius: 10
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    precision: 0
+                }
+            }
+        }
+    }
+});
+</script>
+
+<!-- Styles -->
+<style>
+.glass-card {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    transition: 0.3s ease-in-out;
+}
+</style>
+
+<!-- 🏆 Leaderboard Section -->
+<div class="card glass-card p-4 shadow mt-5 rounded-4">
+    <h3 class="fw-bold text-center mb-4">🏆 Top 5 Performers Leaderboard</h3>
+    <div class="table-responsive">
+        <table class="table table-striped text-center align-middle">
+            <thead class="table-dark rounded-3">
+                <tr>
+                    <th>Rank</th>
+                    <th>User Name</th>
+                    <th>Email</th>
+                    <th>Total Score</th>
+                    <th>Quizzes Attempted</th>
+                    <th>Average Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user, total_score, quizzes_attempted, average_score in leaderboard %}
+                <tr>
+                    <td>
+                        {% if loop.index == 1 %}
+                            🥇
+                        {% elif loop.index == 2 %}
+                            🥈
+                        {% elif loop.index == 3 %}
+                            🥉
+                        {% else %}
+                            #{{ loop.index }}
+                        {% endif %}
+                    </td>
+                    <td>{{ user.full_name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td><span class="badge bg-primary fs-6">{{ total_score }}</span></td>
+                    <td>{{ quizzes_attempted }}</td>
+                    <td>{{ average_score | round(2) }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-muted py-4">No quiz attempts yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

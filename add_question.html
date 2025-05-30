@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-center min-vh-100" style="background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);">
+    <div class="card p-5 rounded-4 shadow-lg border-0" style="width: 500px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px);">
+        
+        <h2 class="text-center mb-4 fw-bold">Add a New Question</h2>
+
+        <form method="POST">
+            <div class="form-floating mb-3">
+                <textarea class="form-control glass-input" id="question_statement" name="question_statement" style="height: 80px;" placeholder="Enter Question" required></textarea>
+                <label for="question_statement">Question</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control glass-input" id="option1" name="option1" placeholder="Option 1" required>
+                <label for="option1">Option 1</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control glass-input" id="option2" name="option2" placeholder="Option 2" required>
+                <label for="option2">Option 2</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control glass-input" id="option3" name="option3" placeholder="Option 3" required>
+                <label for="option3">Option 3</label>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input type="text" class="form-control glass-input" id="option4" name="option4" placeholder="Option 4" required>
+                <label for="option4">Option 4</label>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input type="number" class="form-control glass-input" id="correct_option" name="correct_option" min="1" max="4" placeholder="Correct Option (1-4)" required>
+                <label for="correct_option">Correct Option (1-4)</label>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-glass btn-lg">Add Question</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<!-- Styles -->
+<style>
+.glass-input {
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #000;
+    border-radius: 12px;
+}
+
+.glass-input::placeholder {
+    color: #6c757d;
+}
+
+.glass-input:focus {
+    background: rgba(255, 255, 255, 0.4);
+    color: #000;
+    box-shadow: 0 0 0 4px rgba(255,255,255,0.2);
+}
+
+.btn-glass {
+    background: rgba(255, 255, 255, 0.3);
+    color: #000;
+    font-weight: bold;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-glass:hover {
+    background: rgba(255, 255, 255, 0.5);
+    color: #000;
+}
+</style>
+{% endblock %}
+

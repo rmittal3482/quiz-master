@@ -1,0 +1,12 @@
+cd C:\Users\dell\OneDrive\Desktop\quiz_master
+pip install flask flask_sqlalchemy flask_login werkzeug
+pip install -r requirements.txt
+set FLASK_APP=app.py
+set FLASK_ENV=development
+python
+from app import app, db
+app.app_context().push()
+db.create_all()
+exit()
+python insert_dummy_data.py
+python app.py

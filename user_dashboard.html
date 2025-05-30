@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container py-5">
+    <h1 class="text-center fw-bold mb-5 display-5" style="background: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%); -webkit-background-clip: text; color: transparent;">
+        🚀 Choose Your Subject
+    </h1>
+
+    <div class="row g-4">
+        {% for subject in subjects %}
+        <div class="col-md-6 col-lg-4 d-flex align-items-stretch">
+            <div class="card colorful-card text-center shadow-lg border-0 rounded-5 p-4 w-100 animate-up">
+
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <h4 class="card-title fw-bold mb-3">{{ subject.name }}</h4>
+                    <p class="card-text text-muted mb-4">{{ subject.description }}</p>
+
+                    {% if subject.chapters %}
+                        {% for chapter in subject.chapters %}
+                            {% for quiz in chapter.quizzes %}
+                                <a href="{{ url_for('attempt_quiz', quiz_id=quiz.id) }}" 
+                                   class="btn btn-colored w-100 mb-2 fw-semibold">
+                                    🎯 Attempt Quiz
+                                </a>
+                            {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">No quizzes available yet.</p>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Styles -->
+<style>
+.colorful-card {
+    background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+    border-radius: 20px;
+    color: #ffffff;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    min-height: 300px;
+}
+
+.colorful-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+
+.btn-colored {
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    border: none;
+    color: white;
+    border-radius: 12px;
+    transition: all 0.3s;
+}
+
+.btn-colored:hover {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    transform: scale(1.05);
+    color: white;
+}
+
+.animate-up {
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+
+{% endblock %}
